@@ -15,7 +15,7 @@ prompt = PromptTemplate(
 
 
 def main() -> None:
-    retriever = index.as_retreiver()
+    # retriever = index.as_retreiver()
     synthesizer = get_response_synthesizer(
         response_mode=ResponseMode.COMPACT,
         verbose=True,
