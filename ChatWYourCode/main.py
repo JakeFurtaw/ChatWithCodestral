@@ -11,9 +11,9 @@ import os
 def main() -> None:
     embed_model, llm = load_environment_and_models()
 
-    owner = "JakeFurtaw"
-    repo = "hotlines_mobile"
-    branch = "master"
+    owner = ""
+    repo = ""
+    branch = ""
     filter_file_extensions = (
         [".dart"],
         GithubRepositoryReader.FilterType.INCLUDE,
@@ -23,6 +23,11 @@ def main() -> None:
 
     loader = initialize_github_loader(github_client, owner, repo, filter_file_extensions)
     docs = loader.load_data(branch=branch)
+
+    """Below is both a Query Engine and a Chat Engine, change response var to switch back and forth
+    Chat Engine has memory adding the ability for the model to grab chat history and answer questions based off
+    of old messages.
+    """
 
     # Query Engine
     query_engine = setup_index_and_query_engine(docs, embed_model, llm)
