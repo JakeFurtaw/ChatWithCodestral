@@ -51,13 +51,21 @@ def setup_index_and_query_engine(docs, embed_model, llm):
 
 
 def setup_index_and_chat_engine(docs, embed_model, llm):
-    memory= ChatMemoryBuffer.from_defaults(token_limit=15000)
+    memory = ChatMemoryBuffer.from_defaults(token_limit=3900)
     index = VectorStoreIndex.from_documents(docs, embed_model=embed_model)
     Settings.llm = llm
     chat_engine = index.as_chat_engine(
         chat_mode=ChatMode.BEST,
         memory=memory,
         llm=llm,
+        context_prompt=("Context information is below.\n"
+                        "---------------------\n"
+                        "{context_str}\n"
+                        "---------------------\n"
+                        "Given the context information above I want you to think step by step to answer \n"
+                        "the query in a crisp manner, incase case you don't know the answer say 'I don't know!'.\n"
+                        "Query: {query_str}\n"
+                        "Answer: ")
     )
     return chat_engine
 

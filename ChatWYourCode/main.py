@@ -10,7 +10,9 @@ import os
 
 def main() -> None:
     embed_model, llm = load_environment_and_models()
-
+    # -----------------------------------------------------
+    # --------Enter Repo and File Extensions Here----------
+    # -----------------------------------------------------
     owner = ""
     repo = ""
     branch = ""
@@ -36,8 +38,6 @@ def main() -> None:
 
     # Chat Engine, Added Memory
     chat_engine = setup_index_and_chat_engine(docs, embed_model, llm)
-    qa_prompt_tmpl = create_qa_prompt_template()
-    chat_engine.update_prompts({"response_synthesizer:text_qa_template": qa_prompt_tmpl})
 
     while True:
         user_query = input("Enter your question about the repository (or e to exit): ")
@@ -45,9 +45,9 @@ def main() -> None:
             print("Exiting the program. Goodbye!")
             break
 
-        response = chat_engine.query(user_query)
+        response = chat_engine.chat(user_query)
         print("Response:", response)
-        print("\n" + "-" * 50 + "\n")
+        print("\n" + "-" * 100 + "\n")
 
 
 if __name__ == "__main__":
