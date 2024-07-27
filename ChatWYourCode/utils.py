@@ -1,10 +1,13 @@
+from llama_index.core.chat_engine.types import ChatMode
 from llama_index.readers.github import GithubClient
-from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from llama_index.embeddings.langchain import LangchainEmbedding
 from llama_index.readers.github import GithubRepositoryReader
 from llama_index.core import PromptTemplate, VectorStoreIndex, Settings
-from dotenv import load_dotenv
+from llama_index.core.memory import ChatMemoryBuffer
 from llama_index.llms.ollama import Ollama
+from langchain_community.embeddings import HuggingFaceBgeEmbeddings
+from dotenv import load_dotenv
+
 import torch
 
 
@@ -45,6 +48,18 @@ def setup_index_and_query_engine(docs, embed_model, llm):
     Settings.llm = llm
     query_engine = index.as_query_engine(streaming=True, similarity_top_k=4)
     return query_engine
+
+
+def setup_index_and_chat_engine(docs, embed_model, llm):
+    memory= ChatMemoryBuffer.from_defaults(token_limit=15000)
+    index = VectorStoreIndex.from_documents(docs, embed_model=embed_model)
+    Settings.llm = llm
+    chat_engine = index.as_chat_engine(
+        chat_mode=ChatMode.BEST,
+        memory=memory,
+        llm=llm,
+    )
+    return chat_engine
 
 
 def initialize_github_loader(github_client, owner, repo, filter_file_extensions):
