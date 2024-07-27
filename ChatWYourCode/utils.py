@@ -47,15 +47,12 @@ def setup_index_and_query_engine(docs, embed_model, llm):
     return query_engine
 
 
-def initialize_github_loader(github_client, owner, repo, branch):
+def initialize_github_loader(github_client, owner, repo, filter_file_extensions):
     return GithubRepositoryReader(
         github_client,
         owner=owner,
         repo=repo,
-        filter_file_extensions=(
-            [".js", ".jsx", ".css"],
-            GithubRepositoryReader.FilterType.INCLUDE,
-        ),
+        filter_file_extensions=filter_file_extensions,
         use_parser=False,
         verbose=False,
         concurrent_requests=20

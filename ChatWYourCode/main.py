@@ -3,6 +3,7 @@ from utils import (
     create_qa_prompt_template, initialize_github_loader,
     setup_index_and_query_engine, load_environment_and_models
 )
+from llama_index.readers.github import GithubRepositoryReader
 import os
 
 
@@ -12,18 +13,29 @@ def main() -> None:
     owner = "JakeFurtaw"
     repo = "Oceans"
     branch = "main"
+    filter_file_extensions = (
+        [".js", ".jsx", ".css"],
+        GithubRepositoryReader.FilterType.INCLUDE,
+    )
     github_token = os.environ.get("GITHUB_TOKEN")
     github_client = initialize_github_client(github_token)
 
-    loader = initialize_github_loader(github_client, owner, repo, branch)
+    loader = initialize_github_loader(github_client, owner, repo, filter_file_extensions)
     docs = loader.load_data(branch=branch)
 
     query_engine = setup_index_and_query_engine(docs, embed_model, llm)
     qa_prompt_tmpl = create_qa_prompt_template()
     query_engine.update_prompts({"response_synthesizer:text_qa_template": qa_prompt_tmpl})
 
-    response = query_engine.query('What does the component NewPost.jsx do?')
-    print(response)
+    while True:
+        user_query = input("Enter your question about the repository (or e to exit): ")
+        if user_query.lower() == 'e':
+            print("Exiting the program. Goodbye!")
+            break
+
+        response = query_engine.query(user_query)
+        print("Response:", response)
+        print("\n" + "-" * 50 + "\n")
 
 
 if __name__ == "__main__":
