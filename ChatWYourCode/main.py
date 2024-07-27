@@ -26,7 +26,7 @@ def main() -> None:
     # -----Swap Repo Info Here-------
     # -------------------------------
     owner = "JakeFurtaw"
-    repo = "QWERTYtoQWERTZLinuxDriver"
+    repo = "Oceans"
     branch = "main"
     github_token = os.environ.get("GITHUB_TOKEN")
     github_client = initialize_github_client(github_token)
@@ -35,7 +35,7 @@ def main() -> None:
         owner=owner,
         repo=repo,
         filter_file_extensions=(
-            [".fs"],
+            [".js", "jsx", ".css"],
             GithubRepositoryReader.FilterType.INCLUDE,
         ),
         use_parser=False,
