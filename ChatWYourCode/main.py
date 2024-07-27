@@ -1,59 +1,28 @@
-from utils import load_embedding_model, initialize_github_client, set_device
-from llama_index.readers.github import GithubRepositoryReader
-from llama_index.core import VectorStoreIndex, PromptTemplate, Settings
-from llama_index.embeddings.langchain import LangchainEmbedding
-from dotenv import load_dotenv
-from llama_index.llms.ollama import Ollama
+from utils import (
+    initialize_github_client,
+    create_qa_prompt_template, initialize_github_loader,
+    setup_index_and_query_engine, load_environment_and_models
+)
 import os
 
 
 def main() -> None:
-    qa_prompt_tmpl_str = (
-        "Context information is below.\n"
-        "---------------------\n"
-        "{context_str}\n"
-        "---------------------\n"
-        "Given the context information above I want you to think step by step to answer the query in a crisp manner, incase case you don't know the answer say 'I don't know!'.\n"
-        "Query: {query_str}\n"
-        "Answer: "
-    )
-    # loading embedding model and dotenv files
-    lc_embedding_model = load_embedding_model()
-    embed_model = LangchainEmbedding(lc_embedding_model)
-    load_dotenv()
+    embed_model, llm = load_environment_and_models()
 
-    # -------------------------------
-    # -----Swap Repo Info Here-------
-    # -------------------------------
     owner = "JakeFurtaw"
     repo = "Oceans"
     branch = "main"
     github_token = os.environ.get("GITHUB_TOKEN")
     github_client = initialize_github_client(github_token)
-    loader = GithubRepositoryReader(
-        github_client,
-        owner=owner,
-        repo=repo,
-        filter_file_extensions=(
-            [".js", "jsx", ".css"],
-            GithubRepositoryReader.FilterType.INCLUDE,
-        ),
-        use_parser=False,
-        verbose=False,
-        concurrent_requests=20
-    )
+
+    loader = initialize_github_loader(github_client, owner, repo, branch)
     docs = loader.load_data(branch=branch)
-    index = VectorStoreIndex.from_documents(docs, embed_model=embed_model)
-    # Setting Ollama Model Here
-    llm = Ollama(model="codestral:latest", request_timeout=30.0)
-    Settings.llm = llm
-    query_engine = index.as_query_engine(streaming=True, similarity_top_k=4)
-    qa_prompt_tmpl = PromptTemplate(qa_prompt_tmpl_str)
+
+    query_engine = setup_index_and_query_engine(docs, embed_model, llm)
+    qa_prompt_tmpl = create_qa_prompt_template()
     query_engine.update_prompts({"response_synthesizer:text_qa_template": qa_prompt_tmpl})
-    # -------------------------------
-    # ---Question About Repo Here----
-    # -------------------------------
-    response = query_engine.query('What is this repository about?')
+
+    response = query_engine.query('What does the component NewPost.jsx do?')
     print(response)
 
 
