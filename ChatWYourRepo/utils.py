@@ -16,7 +16,7 @@ def initialize_github_client(github_token):
 
 
 def load_embedding_model(
-        model_name: str = "BAAI/bge-large-en-v1.5", device: str = "cuda:1"
+        model_name: str = "dunzhang/stella_en_1.5B_v5", device: str = "cuda:1"
 ) -> HuggingFaceBgeEmbeddings:
     model_kwargs = {"device": device}
     encode_kwargs = {
