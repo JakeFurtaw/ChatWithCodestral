@@ -1,7 +1,7 @@
 from llama_index.llms.ollama import Ollama
 from llama_index.core import SimpleDirectoryReader
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from ChatWYourCode.utils import setup_index_and_chat_engine
+from ChatWYourRepo.utils import setup_index_and_chat_engine
 
 
 def main() -> None:
