@@ -16,7 +16,7 @@ def initialize_github_client(github_token):
 
 
 def load_embedding_model(
-        model_name: str = "BAAI/bge-large-en-v1.5", device: str = "cuda"
+        model_name: str = "BAAI/bge-large-en-v1.5", device: str = "cuda:1"
 ) -> HuggingFaceBgeEmbeddings:
     model_kwargs = {"device": device}
     encode_kwargs = {
@@ -87,7 +87,7 @@ def load_environment_and_models():
     load_dotenv()
     lc_embedding_model = load_embedding_model()
     embed_model = LangchainEmbedding(lc_embedding_model)
-    llm = Ollama(model="codestral:latest", request_timeout=30.0)
+    llm = Ollama(model="codestral:latest", request_timeout=30.0, device="cuda:0")
     return embed_model, llm
 
 
