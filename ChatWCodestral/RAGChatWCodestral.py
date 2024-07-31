@@ -40,7 +40,10 @@ def load_docs():
     return documents
 
 
-def main(embed_model, documents, llm) -> None:
+def main() -> None:
+    embed_model = set_embed_model()
+    llm = set_llm()
+    documents = load_docs()
     # Setting up chat engine
     chat_engine = setup_index_and_chat_engine(docs=documents, llm=llm, embed_model=embed_model)
     # Looping chat until user is done chatting

@@ -1,6 +1,5 @@
 from llama_index.llms.ollama import Ollama
-from llama_index.core.llms import ChatMessage, MessageRole
-from llama_index.core import ChatPromptTemplate
+from llama_index.core.llms import ChatMessage
 
 
 def main() -> None:
