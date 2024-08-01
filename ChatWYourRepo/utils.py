@@ -87,7 +87,7 @@ def load_environment_and_models():
     load_dotenv()
     lc_embedding_model = load_embedding_model()
     embed_model = LangchainEmbedding(lc_embedding_model)
-    llm = Ollama(model="codestral:latest", request_timeout=30.0, device="cuda:0")
+    llm = Ollama(model="codestral:latest", request_timeout=30.0, device=set_device(1))
     return embed_model, llm
 
 
