@@ -17,7 +17,7 @@ def main() -> None:
     repo = ""
     branch = ""
     filter_file_extensions = (
-        [".dart"],
+        [],
         GithubRepositoryReader.FilterType.INCLUDE,
     )
     github_token = os.environ.get("GITHUB_TOKEN")
