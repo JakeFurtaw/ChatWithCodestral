@@ -8,7 +8,7 @@ It is very easy to use all you have to do is change the strings under the owner,
 you are looking to chat with. As well as what file extensions you want the model to target. Then you ask away. This
 is a great alternative to paying for other large language models to chat with about your code.
 
-## Frameworks
+## Framework
 This code is largely built on Llama-Index with some langchain support for the embeddings.
 
 ### Other
