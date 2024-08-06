@@ -2,7 +2,7 @@ from llama_index.core import SimpleDirectoryReader
 from utils import setup_index_and_chat_engine, load_models
 import os
 
-DIRECTORY_PATH = ""
+DIRECTORY_PATH = "/data"
 
 
 def has_multiple_files(directory):

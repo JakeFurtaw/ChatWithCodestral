@@ -31,13 +31,6 @@ def load_models():
     return embed_model, llm
 
 
-def setup_index_and_query_engine(docs, embed_model, llm):
-    index = VectorStoreIndex.from_documents(docs, embed_model=embed_model)
-    Settings.llm = llm
-    query_engine = index.as_query_engine(streaming=True, similarity_top_k=4)
-    return query_engine
-
-
 def setup_index_and_chat_engine(docs, embed_model, llm):
     memory = ChatMemoryBuffer.from_defaults(token_limit=6000)
     index = VectorStoreIndex.from_documents(docs, embed_model=embed_model)
@@ -51,6 +44,7 @@ def setup_index_and_chat_engine(docs, embed_model, llm):
         "suggestions for best practices and potential optimizations. 4. If the user's question is unclear,\n"
         "ask for clarification. 5. When referencing external libraries or frameworks, briefly explain their purpose.\n"
         "6. If the question involves multiple possible approaches, outline the pros and cons of each.\n"
+        "Reponse:"
     )
 
     system_message = ChatMessage(role="system", content=chat_prompt)
