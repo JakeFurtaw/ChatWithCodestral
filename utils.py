@@ -55,7 +55,7 @@ def setup_index_and_chat_engine(docs, embed_model, llm):
 
     system_message = ChatMessage(role="system", content=chat_prompt)
     chat_engine = index.as_chat_engine(
-        chat_mode=ChatMode.BEST,
+        chat_mode=ChatMode.CONTEXT,
         memory=memory,
         system_prompt=system_message,
         llm=llm,
