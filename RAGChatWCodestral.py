@@ -1,7 +1,7 @@
 from llama_index.llms.ollama import Ollama
 from llama_index.core import SimpleDirectoryReader
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from ChatWYourRepo.utils import setup_index_and_chat_engine
+from utils import setup_index_and_chat_engine
 import os
 
 DIRECTORY_PATH = ""
@@ -9,7 +9,7 @@ DIRECTORY_PATH = ""
 
 def set_embed_model():
     embed_model = HuggingFaceEmbedding(
-        model_name="dunzhang/stella_en_1.5B_v5",
+        model_name="dunzhang/stella_en_400M_v5",
         device="cuda:1"
     )
     return embed_model
@@ -17,7 +17,7 @@ def set_embed_model():
 
 def set_llm():
     llm = Ollama(model="codestral:latest",
-                 request_timeout=30.0,
+                 request_timeout=60.0,
                  device="cuda:0")
     return llm
 
