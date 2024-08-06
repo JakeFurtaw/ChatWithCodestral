@@ -1,0 +1,3 @@
+# Chat With Codestral
+This repository gives users access to codestral for free using your own hardware. I created this as a way for me to 
+have a local free way to communicate with and get coding help from a great llm. Use it as you please...
