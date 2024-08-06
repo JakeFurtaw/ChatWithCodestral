@@ -1,9 +1,9 @@
-from llama_index.llms.ollama import Ollama
 from llama_index.core.llms import ChatMessage
+from utils import set_llm
 
 
 def main() -> None:
-    llm = Ollama(model="codestral:latest", request_timeout=30.0)
+    llm = set_llm()
     while (query := input("Enter your coding question (e to exit): ")) != "e":
         question = [ChatMessage(content=query)]
         response_generator = llm.stream_chat(question)
