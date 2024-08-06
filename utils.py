@@ -1,6 +1,6 @@
 from llama_index.core.chat_engine.types import ChatMode
 from llama_index.embeddings.langchain import LangchainEmbedding
-from llama_index.core import PromptTemplate, VectorStoreIndex, Settings
+from llama_index.core import VectorStoreIndex, Settings
 from llama_index.core.memory import ChatMemoryBuffer
 from llama_index.llms.ollama import Ollama
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
